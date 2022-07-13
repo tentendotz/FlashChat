@@ -343,7 +343,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="⚡️FlashChat" id="crw-Wd-0Ye">
-                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="Gi6-py-c6k"/>
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="Gi6-py-c6k">
+                            <connections>
+                                <action selector="logOutPressed:" destination="frn-ff-W92" id="2Q4-oa-19J"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="messageTextfield" destination="WxL-mR-d8J" id="dmo-wq-yEm"/>
@@ -357,7 +361,6 @@
         <!--Navigation Controller-->
         <scene sceneID="sPW-J3-eLc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BPS-N4-oxv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yKf-xJ-nnZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rlv-QD-bnb">
@@ -375,6 +378,7 @@
                         <segue destination="Tim-3B-f4n" kind="relationship" relationship="rootViewController" id="3Ku-O4-0Ed"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BPS-N4-oxv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-86.956521739130437" y="134.59821428571428"/>
         </scene>
