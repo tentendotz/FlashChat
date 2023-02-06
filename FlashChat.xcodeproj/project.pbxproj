@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060DF84E2991212E0080A351 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DF84D2991212E0080A351 /* Constants.swift */; };
 		064E3D18287DAF41001FD8EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064E3D17287DAF41001FD8EB /* RegisterViewController.swift */; };
 		064E3D1A287DAFE7001FD8EB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064E3D19287DAFE7001FD8EB /* LoginViewController.swift */; };
 		06B0F85C287DB07400AD220A /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B0F85B287DB07400AD220A /* ChatViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		060DF84D2991212E0080A351 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		064E3D17287DAF41001FD8EB /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		064E3D19287DAFE7001FD8EB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		06B0F85B287DB07400AD220A /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				06B0F85B287DB07400AD220A /* ChatViewController.swift */,
 				06D41DF22878760B00EFC975 /* Main.storyboard */,
 				06D41DF52878760D00EFC975 /* Assets.xcassets */,
+				060DF84D2991212E0080A351 /* Constants.swift */,
 				06D41DF72878760D00EFC975 /* LaunchScreen.storyboard */,
 				06D41DFA2878760D00EFC975 /* Info.plist */,
 			);
@@ -151,6 +154,7 @@
 				06D41DED2878760B00EFC975 /* AppDelegate.swift in Sources */,
 				06D41DEF2878760B00EFC975 /* SceneDelegate.swift in Sources */,
 				064E3D1A287DAFE7001FD8EB /* LoginViewController.swift in Sources */,
+				060DF84E2991212E0080A351 /* Constants.swift in Sources */,
 				06B0F85C287DB07400AD220A /* ChatViewController.swift in Sources */,
 				064E3D18287DAF41001FD8EB /* RegisterViewController.swift in Sources */,
 			);
