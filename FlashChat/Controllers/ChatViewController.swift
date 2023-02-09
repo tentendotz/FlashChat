@@ -22,6 +22,9 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = K.appName
+        navigationItem.hidesBackButton = true
+        
         tableView.dataSource = self
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
     }
@@ -31,8 +34,10 @@ class ChatViewController: UIViewController {
         
     }
     
+    
+    //MARK: - Firebase Auth: Log out
     @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
-        
+        navigationController?.popToRootViewController(animated: true)
     }
     
 }
