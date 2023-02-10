@@ -23,11 +23,14 @@ class LoginViewController: UIViewController {
             displayAlert(title: "Error", message: "Sorry, couldn't log you in.", actions: [okAction])
         }
     }
+}
+
+
+extension LoginViewController {
     
     func displayAlert(title: String, message: String, actions: [UIAlertAction]) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         actions.forEach { alert.addAction($0) }
         present(alert, animated: true)
     }
-    
 }
