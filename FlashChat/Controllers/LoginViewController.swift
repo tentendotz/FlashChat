@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -16,11 +17,15 @@ class LoginViewController: UIViewController {
     //MARK: - Firebase Auth: Log in
     
     @IBAction func loginPressed(_ sender: UIButton) {
-        if emailTextfield.text == "1@2.com" , passwordTextfield.text == "123456" {
-            self.performSegue(withIdentifier: K.loginSegue, sender: self)
-        } else {
-            let okAction = UIAlertAction(title: "OK", style: .default)
-            displayAlert(title: "Error", message: "Sorry, couldn't log you in.", actions: [okAction])
+        guard let email = emailTextfield.text, let password = passwordTextfield.text else { return }
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error {
+                let okAction = UIAlertAction(title: "OK", style: .default)
+                self.displayAlert(title: "Error", message: "Sorry, couldn't log you in.", actions: [okAction])
+                print(error) // for debug
+            } else {
+                self.performSegue(withIdentifier: K.loginSegue, sender: self)
+            }
         }
     }
 }
