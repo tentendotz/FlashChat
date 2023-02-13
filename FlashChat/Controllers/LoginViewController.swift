@@ -22,7 +22,7 @@ class LoginViewController: UIViewController {
             if let error {
                 let okAction = UIAlertAction(title: "OK", style: .default)
                 self.displayAlert(title: "Error", message: "Sorry, couldn't log you in.", actions: [okAction])
-                print(error) // for debug
+                print(error)
             } else {
                 self.performSegue(withIdentifier: K.loginSegue, sender: self)
             }

@@ -17,13 +17,6 @@ class ChatViewController: UIViewController {
     let db = Firestore.firestore()
     var messages = [Message]()
     
-    // Dummy message
-//    var messages: [Message] = [
-//        Message(sender: "1@2.com", body: "Hey!"),
-//        Message(sender: "a@b.com", body: "Hello!"),
-//        Message(sender: "1@2.com", body: "What's up?")
-//    ]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,28 +34,26 @@ class ChatViewController: UIViewController {
     
     func loadMessages() {
         db.collection(K.FStore.collectionName).order(by: K.FStore.dateField).addSnapshotListener { querySnapshot, error in
+            if let error {
+                print("There was an issue retrieving from Firestore. \(error)")
+                return
+            }
+            guard let snapshotDocuments = querySnapshot?.documents else { return }
             
-            if let e = error {
-                print("There was an issue retrieving from Firestore. \(e)")
-            } else {
-                self.messages = []
-                if let snapshotDocuments = querySnapshot?.documents {
-                    for doc in snapshotDocuments {
-                        let data = doc.data()
-                        if let messageSender = data[K.FStore.senderField] as? String, let messageBody = data[K.FStore.bodyField] as? String {
-                            let newMessage = Message(sender: messageSender, body: messageBody)
-                            self.messages.append(newMessage)
-                            
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
+            self.messages = []
+            for doc in snapshotDocuments {
+                let data = doc.data()
+                guard let messageSender = data[K.FStore.senderField] as? String, let messageBody = data[K.FStore.bodyField] as? String else { break }
+                
+                let newMessage = Message(sender: messageSender, body: messageBody)
+                self.messages.append(newMessage)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
                 }
             }
         }
     }
-    
 }
 
 
@@ -71,23 +62,21 @@ extension ChatViewController {
     //MARK: - Save data to Firestore
     
     @IBAction func sendPressed(_ sender: UIButton) {
-        if let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email {
-            db.collection(K.FStore.collectionName).addDocument(data: [
-                K.FStore.senderField: messageSender,
-                K.FStore.bodyField: messageBody,
-                K.FStore.dateField: Date().timeIntervalSince1970
-            ]) { error in
-                if let e = error {
-                    print("There was an issue saving data to Firestore. \(e)")
-                } else {
-                    print("Successfully saved data.")
-                    DispatchQueue.main.async {
-                        self.messageTextfield.text = ""
-                    }
+        guard let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email else { return }
+        db.collection(K.FStore.collectionName).addDocument(data: [
+            K.FStore.senderField: messageSender,
+            K.FStore.bodyField: messageBody,
+            K.FStore.dateField: Date().timeIntervalSince1970
+        ]) { error in
+            if let error {
+                print("There was an issue saving data to Firestore. \(error)")
+            } else {
+                print("Successfully saved data.")
+                DispatchQueue.main.async {
+                    self.messageTextfield.text = ""
                 }
             }
         }
-        
     }
     
     
@@ -101,7 +90,6 @@ extension ChatViewController {
             print("Error signing out: %@", signOutError)
         }
     }
-    
 }
 
 
@@ -120,7 +108,7 @@ extension ChatViewController: UITableViewDataSource {
         cell.label.text = message.body
         
         // This is a message from the current user.
-        if message.sender == "1@2.com" {
+        if message.sender == Auth.auth().currentUser?.email {
             cell.leftImageView.isHidden = true
             cell.rightImageView.isHidden = false
             cell.messageBubble.backgroundColor = UIColor(named: K.BrandColors.lightPurple)
@@ -133,7 +121,6 @@ extension ChatViewController: UITableViewDataSource {
             cell.messageBubble.backgroundColor = UIColor(named: K.BrandColors.purple)
             cell.label.textColor = UIColor(named: K.BrandColors.lightPurple)
         }
-        
         return cell
     }
 }
