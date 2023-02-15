@@ -19,11 +19,7 @@ class WelcomeViewController: UIViewController {
         var charIndex = 0.0
         let titleText = "⚡️FlashChat"
         for letter in titleText {
-            // for debug print
-            print("-")
-            print(0.1 * charIndex)
-            print(letter)
-            
+            print("\(letter): \(0.1*charIndex)")
             Timer.scheduledTimer(withTimeInterval: 0.1 * charIndex, repeats: false) { (timer) in
                 self.titleLabel.text?.append(letter)
             }
@@ -40,6 +36,5 @@ class WelcomeViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
     }
-
 }
 

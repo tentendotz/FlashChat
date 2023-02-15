@@ -6,18 +6,16 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class ChatViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextfield: UITextField!
     
-    // Dummy message
-    var messages: [Message] = [
-        Message(sender: "1@2.com", body: "Hey!"),
-        Message(sender: "a@b.com", body: "Hello!"),
-        Message(sender: "1@2.com", body: "What's up?")
-    ]
+    let db = Firestore.firestore()
+    var messages = [Message]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,19 +25,71 @@ class ChatViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
+        
+        loadMessages()
     }
     
     
+    //MARK: - Retrieve data from Firestore
+    
+    func loadMessages() {
+        db.collection(K.FStore.collectionName).order(by: K.FStore.dateField).addSnapshotListener { querySnapshot, error in
+            if let error {
+                print("There was an issue retrieving from Firestore. \(error)")
+                return
+            }
+            guard let snapshotDocuments = querySnapshot?.documents else { return }
+            
+            self.messages = []
+            for doc in snapshotDocuments {
+                let data = doc.data()
+                guard let messageSender = data[K.FStore.senderField] as? String, let messageBody = data[K.FStore.bodyField] as? String else { break }
+                
+                let newMessage = Message(sender: messageSender, body: messageBody)
+                self.messages.append(newMessage)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+}
+
+
+extension ChatViewController {
+    
+    //MARK: - Save data to Firestore
+    
     @IBAction func sendPressed(_ sender: UIButton) {
-        
+        guard let messageBody = messageTextfield.text, let messageSender = Auth.auth().currentUser?.email else { return }
+        db.collection(K.FStore.collectionName).addDocument(data: [
+            K.FStore.senderField: messageSender,
+            K.FStore.bodyField: messageBody,
+            K.FStore.dateField: Date().timeIntervalSince1970
+        ]) { error in
+            if let error {
+                print("There was an issue saving data to Firestore. \(error)")
+            } else {
+                print("Successfully saved data.")
+                DispatchQueue.main.async {
+                    self.messageTextfield.text = ""
+                }
+            }
+        }
     }
     
     
     //MARK: - Firebase Auth: Log out
-    @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popToRootViewController(animated: true)
-    }
     
+    @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            navigationController?.popToRootViewController(animated: true)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
 }
 
 
@@ -53,12 +103,12 @@ extension ChatViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! MessageCell
-
+        
         let message = messages[indexPath.row]
         cell.label.text = message.body
         
         // This is a message from the current user.
-        if message.sender == "1@2.com" {
+        if message.sender == Auth.auth().currentUser?.email {
             cell.leftImageView.isHidden = true
             cell.rightImageView.isHidden = false
             cell.messageBubble.backgroundColor = UIColor(named: K.BrandColors.lightPurple)
@@ -71,7 +121,6 @@ extension ChatViewController: UITableViewDataSource {
             cell.messageBubble.backgroundColor = UIColor(named: K.BrandColors.purple)
             cell.label.textColor = UIColor(named: K.BrandColors.lightPurple)
         }
-        
         return cell
     }
 }
