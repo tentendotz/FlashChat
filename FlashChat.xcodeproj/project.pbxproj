@@ -141,7 +141,6 @@
 				48EF76577452A9B6F05C929E /* Pods-FlashChat.debug.xcconfig */,
 				13AE780B1994DCB7D5DF3DA1 /* Pods-FlashChat.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -430,7 +429,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tentenblog.FlashChat;
+				PRODUCT_BUNDLE_IDENTIFIER = "YOUR-BUNDLE-ID";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -459,7 +458,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tentenblog.FlashChat;
+				PRODUCT_BUNDLE_IDENTIFIER = "YOUR-BUNDLE-ID";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
