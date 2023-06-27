@@ -1,9 +1,10 @@
-# FlashChat
+FlashChat
+=========
 
 This App is the base of what I learned from Dr. Angela Yu @ The App Brewery.
 
-
-## Getting Started
+Getting Started
+---------------
 To build the app, you'll need a `GoogleService-Info.plist` file from the Firebase project.  
 You also must enable Firebase Authentication and Cloud Firestore.  
 For more information about Firebase, see [https://firebase.google.com/docs](https://firebase.google.com/docs).
@@ -30,4 +31,20 @@ For more information about Firebase, see [https://firebase.google.com/docs](http
     $ pod install
     ```
 
----
+Supplementary Information
+-------------------------
+
+#### Libraries Used
+- [Firebase](https://firebase.google.com/)
+- [IQKeyboardManager](https://github.com/hackiftekhar/IQKeyboardManager)
+
+#### Topics Included
+- UINavigationController Class
+- UITableView Class
+- UITextField Class
+- XIB file
+- CocoaPods
+- Firebase Authentication
+- Cloud Firestore
+
+___
